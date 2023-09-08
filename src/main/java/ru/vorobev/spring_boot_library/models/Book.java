@@ -1,5 +1,6 @@
 package ru.vorobev.spring_boot_library.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +32,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "person_id")
+    @JsonBackReference
     private Person person;
 
     @Column(name = "time_book_is_taken")

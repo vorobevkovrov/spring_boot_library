@@ -1,12 +1,16 @@
 package ru.vorobev.spring_boot_library.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,17 +31,18 @@ public  class Person {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "person")
-    private List<Book> books;
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Book> books = new ArrayList<>();
 
     @Column(name = "date_of_birth")
+    @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
     public Person() {
-
     }
 
     public int getAge() {

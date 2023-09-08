@@ -7,7 +7,6 @@ import ru.vorobev.spring_boot_library.models.Book;
 import ru.vorobev.spring_boot_library.repositories.BookRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BooksServices {
@@ -33,12 +32,25 @@ public class BooksServices {
     public Book findById(Integer id) {
         System.out.println(bookRepository.findById(id));
         System.out.println("findById");
-        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExceptions("Book", "Id", id));
+        return bookRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundExceptions("Book", "Id", id));
     }
 
-    public Book updateBook(Book book,Integer id) {
-       Book book1 =  bookRepository.findById(id).orElseThrow(()->new ResourceNotFoundExceptions("Book", "Id", id));
-        return bookRepository.save(book1);
+    @Transactional
+    public Book updateBook(Book book, Integer id) {
+        Book updatedBook = bookRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundExceptions("Book", "Id", id));
+        updatedBook.setAuthor(book.getAuthor());
+        updatedBook.setBookIsTaken(book.getBookIsTaken());
+        updatedBook.setTitle(book.getTitle());
+        updatedBook.setYearOfPublication(book.getYearOfPublication());
+        updatedBook.setPerson(book.getPerson());
+        bookRepository.save(updatedBook);
+        return updatedBook;
+    }
+
+    public List<Book> bookIsTaken() {
+        return bookRepository.findBooksByBookIsTakenTrue();
     }
 
     public void deleteBookById(Integer id) {

@@ -37,8 +37,8 @@ public class BooksController {
             return ResponseEntity.badRequest().body("Error books not found");
         }
     }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    //TODO убрать трай и кэтч
+    @GetMapping(value = "/book/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getBook(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok().body(bookService.findById(id));
@@ -46,31 +46,28 @@ public class BooksController {
             return ResponseEntity.badRequest().body("Error books not found");
         }
     }
-
+    //TODO убрать трай и кэтч
     @PostMapping()
     public ResponseEntity<?> addBook(@RequestBody Book book) {
-        System.out.println(book);
         logger.info("Book " + book);
         try {
             logger.info("try " + book);
-            bookService.addBook(book);
             return new ResponseEntity<>(bookService.addBook(book), HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error book not added");
         }
     }
-
+//TODO убрать трай и кэтч
     // not work
-    @PutMapping("{id}")
-    public ResponseEntity<?> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateBook(@PathVariable Integer id, @RequestBody Book book) {
         try {
-            bookService.updateBook(book, id);
-            return ResponseEntity.ok().body("Book was updated");
+            return new ResponseEntity<>(bookService.updateBook(book, id), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Book not updated");
         }
     }
-
+    //TODO убрать трай и кэтч
     //work
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Integer id) {
@@ -80,5 +77,10 @@ public class BooksController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Book not deleted");
         }
+    }
+
+    @GetMapping("/isTaken")
+    public ResponseEntity<?> bookIsTaken() {
+        return new ResponseEntity<>(bookService.bookIsTaken(), HttpStatus.FOUND);
     }
 }
