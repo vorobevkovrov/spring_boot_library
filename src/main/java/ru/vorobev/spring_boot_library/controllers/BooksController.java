@@ -1,14 +1,12 @@
 package ru.vorobev.spring_boot_library.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.spring_boot_library.models.Book;
 import ru.vorobev.spring_boot_library.servises.BooksServices;
-
+@Slf4j
 @RestController
 @RequestMapping("/books")
 public class BooksController {
@@ -26,32 +24,24 @@ public class BooksController {
         this.bookService = bookService;
     }
 
-    private final static Logger logger = LoggerFactory.getLogger(BooksController.class);
+   // private final static Logger logger = LoggerFactory.getLogger(BooksController.class);
 
     @GetMapping
     public ResponseEntity<?> getBooks() {
-        System.out.println("ResponseEntity books");
+        log.info("ResponseEntity<?> getBooks()");
         try {
             return ResponseEntity.ok().body(bookService.findAllBooks());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error books not found");
         }
     }
-    //TODO убрать трай и кэтч
-    @GetMapping(value = "/book/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getBook(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok().body(bookService.findById(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error books not found");
-        }
-    }
+
     //TODO убрать трай и кэтч
     @PostMapping()
     public ResponseEntity<?> addBook(@RequestBody Book book) {
-        logger.info("Book " + book);
+        log.info("Book " + book);
         try {
-            logger.info("try " + book);
+            log.info("try " + book);
             return new ResponseEntity<>(bookService.addBook(book), HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error book not added");

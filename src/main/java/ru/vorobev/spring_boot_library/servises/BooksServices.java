@@ -2,10 +2,14 @@ package ru.vorobev.spring_boot_library.servises;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.vorobev.spring_boot_library.exeptions.NotFoundException;
 import ru.vorobev.spring_boot_library.exeptions.ResourceNotFoundExceptions;
 import ru.vorobev.spring_boot_library.models.Book;
 import ru.vorobev.spring_boot_library.repositories.BookRepository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -33,13 +37,13 @@ public class BooksServices {
         System.out.println(bookRepository.findById(id));
         System.out.println("findById");
         return bookRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundExceptions("Book", "Id", id));
+                new NotFoundException("Книга не найдена "+new Timestamp(System.currentTimeMillis())));
     }
 
     @Transactional
     public Book updateBook(Book book, Integer id) {
         Book updatedBook = bookRepository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundExceptions("Book", "Id", id));
+                new NotFoundException("Книга не найдена"));
         updatedBook.setAuthor(book.getAuthor());
         updatedBook.setBookIsTaken(book.getBookIsTaken());
         updatedBook.setTitle(book.getTitle());
