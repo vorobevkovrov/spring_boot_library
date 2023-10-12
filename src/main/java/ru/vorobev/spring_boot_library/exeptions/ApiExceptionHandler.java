@@ -4,12 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.vorobev.spring_boot_library.models.ErrorMessage;
 
+import java.time.LocalDateTime;
+
 @RestControllerAdvice
-public class CustomException {
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorMessage> notFoundException(NotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessage(exception.getMessage()));
+        ErrorMessage errorMessage = new ErrorMessage("Resource not found ", exception.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);
     }
 }
