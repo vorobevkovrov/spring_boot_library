@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.spring_boot_library.models.Book;
+import ru.vorobev.spring_boot_library.servises.BookService;
 import ru.vorobev.spring_boot_library.servises.BooksServices;
 
 
@@ -12,12 +13,15 @@ import ru.vorobev.spring_boot_library.servises.BooksServices;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    private BooksServices bookService;
+    private BookService bookService;
+    private BooksServices booksServices;
 
-    public BookController(BooksServices bookService) {
+    public BookController(BookService bookService, BooksServices booksServices) {
         this.bookService = bookService;
+        this.booksServices = booksServices;
     }
 
+    // /book/id
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getBook(@PathVariable Integer id) {
         log.info("ResponseEntity<?> getBook (@PathVariable Integer id)");
@@ -30,6 +34,7 @@ public class BookController {
         return new ResponseEntity(bookService.addBook(book), HttpStatus.CREATED);
     }
 
+    // /book/id
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBook(@PathVariable Integer id, @RequestBody Book book) {
         log.info("updateBook" + book);
@@ -43,9 +48,11 @@ public class BookController {
         return new ResponseEntity<>("Book was deleted", HttpStatus.OK);
     }
 
+    // /book/isTaken
+    // TODO get books with owners
     @GetMapping("/isTaken")
-    public ResponseEntity<?> bookIsTaken(Book book, Integer id) {
-        return new ResponseEntity<>(bookService.bookIsTaken(book, id), HttpStatus.FOUND);
+    public ResponseEntity<?> bookIsTaken() {
+        return new ResponseEntity<>(booksServices.findBooksIsTaken(), HttpStatus.FOUND);
     }
 }
 
