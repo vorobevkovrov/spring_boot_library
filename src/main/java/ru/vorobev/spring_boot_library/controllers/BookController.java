@@ -12,6 +12,7 @@ import ru.vorobev.spring_boot_library.servises.BooksServices;
 @Slf4j
 @RestController
 @RequestMapping("/book")
+
 public class BookController {
     private BookService bookService;
     private BooksServices booksServices;
@@ -31,7 +32,7 @@ public class BookController {
     @PostMapping()
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         log.info("Book " + book);
-        return new ResponseEntity(bookService.addBook(book), HttpStatus.CREATED);
+        return new ResponseEntity<>(bookService.addBook(book), HttpStatus.CREATED);
     }
 
     // /book/id
@@ -49,10 +50,17 @@ public class BookController {
     }
 
     // /book/isTaken
-    // TODO get books with owners
+    // TODO fix answer in json
     @GetMapping("/isTaken")
     public ResponseEntity<?> bookIsTaken() {
         return new ResponseEntity<>(booksServices.findBooksIsTaken(), HttpStatus.FOUND);
+    }
+
+    @PostMapping("/takeBook/{bookId}/{personId}")
+    public ResponseEntity<?> takeBook(@PathVariable("bookId") int bookId, @PathVariable("personId") int personId) {
+        log.info("@PostMapping(/takeBook/{bookId}/person)");
+        bookService.addBookToPerson(bookId, personId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

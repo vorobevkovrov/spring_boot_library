@@ -16,4 +16,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage("Resource not found ", exception.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(IsTakenException.class)
+    public ResponseEntity<ErrorMessage> isTakenException(IsTakenException isTakenException){
+        ErrorMessage errorMessage = new ErrorMessage("Book is already taken",isTakenException.getMessage(),LocalDateTime.now());
+        return new ResponseEntity<>(errorMessage,HttpStatus.IM_USED);
+    }
 }

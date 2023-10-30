@@ -10,8 +10,8 @@
     </parent>
     <groupId>ru.vorobev</groupId>
     <artifactId>spring_boot_library</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
     <name>spring_boot_library</name>
     <description>spring_boot_library</description>
     <properties>

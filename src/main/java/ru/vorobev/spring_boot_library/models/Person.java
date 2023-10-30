@@ -2,7 +2,6 @@ package ru.vorobev.spring_boot_library.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,7 +30,7 @@ public  class Person {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person")
     @JsonManagedReference
     private List<Book> books = new ArrayList<>();
 
