@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - preConditions:
+  - changeSet:
+      id: 3
+      author: Maxim
+      changes:
+        - modifyDataType:
+            columnName: description
+            newDataType: text
+            tableName: books
+

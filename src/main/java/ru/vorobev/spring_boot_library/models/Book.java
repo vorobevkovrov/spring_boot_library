@@ -1,6 +1,5 @@
 package ru.vorobev.spring_boot_library.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -28,19 +27,29 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "person_id")
-    @JsonBackReference
+ //   @JsonManagedReference
     private Person person;
 
     @Column(name = "time_book_is_taken")
-    @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate timeBookTaking;
 
     @Column(name = "book_is_taken")
     private Boolean bookIsTaken;
+    @Column
+    private String description;
 
     public Book() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTitle() {
@@ -89,5 +98,10 @@ public class Book {
 
     public void setBookIsTaken(Boolean bookIsTaken) {
         this.bookIsTaken = bookIsTaken;
+    }
+
+    @Override
+    public String toString() {
+        return this.title + " " + this.author;
     }
 }

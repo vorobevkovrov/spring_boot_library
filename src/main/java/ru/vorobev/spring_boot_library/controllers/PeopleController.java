@@ -5,18 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.spring_boot_library.models.Person;
-import ru.vorobev.spring_boot_library.servises.PersonServices;
+import ru.vorobev.spring_boot_library.servicesImpl.PersonServicesImpl;
 
 @Slf4j
 @RestController
 @RequestMapping("/peoples")
 public class PeopleController {
-    private PersonServices personServices;
+   final private PersonServicesImpl personServices;
 
-    public PeopleController(PersonServices personServices) {
+    public PeopleController(PersonServicesImpl personServices) {
         this.personServices = personServices;
     }
-
+//TODO make getAllPeoples without books
     @GetMapping
     public ResponseEntity<?> getAllPeoples() {
         return ResponseEntity.ok().body(personServices.findAllPeoplesWithBooks());

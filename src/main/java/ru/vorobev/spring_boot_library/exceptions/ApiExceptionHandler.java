@@ -1,4 +1,4 @@
-package ru.vorobev.spring_boot_library.exeptions;
+package ru.vorobev.spring_boot_library.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

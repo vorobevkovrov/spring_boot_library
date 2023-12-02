@@ -1,4 +1,4 @@
-package ru.vorobev.spring_boot_library.exeptions;
+package ru.vorobev.spring_boot_library.exceptions;
 
 public class AppException extends RuntimeException {
     private String message;

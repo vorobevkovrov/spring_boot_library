@@ -1,4 +1,4 @@
-package ru.vorobev.spring_boot_library.servises;
+package ru.vorobev.spring_boot_library.servicesImpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,15 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vorobev.spring_boot_library.models.Person;
 import ru.vorobev.spring_boot_library.repositories.PeopleRepository;
+import ru.vorobev.spring_boot_library.services.PeopleService;
 
 import java.util.List;
 
 @Service
-public class PersonServices {
-    private PeopleRepository peopleRepository;
-    private final static Logger logger = LoggerFactory.getLogger(PersonServices.class);
+public class PersonServicesImpl implements PeopleService {
+    final private PeopleRepository peopleRepository;
+    private final static Logger logger = LoggerFactory.getLogger(PersonServicesImpl.class);
 
-    public PersonServices(PeopleRepository peopleRepository) {
+    public PersonServicesImpl(PeopleRepository peopleRepository) {
         this.peopleRepository = peopleRepository;
     }
 
@@ -34,7 +35,7 @@ public class PersonServices {
 
     @Transactional
     public Person addPerson(Person person) {
-        logger.info("addPerson PersonServices");
+        logger.info("addPerson PersonServicesImpl");
         return peopleRepository.save(person);
     }
 }
