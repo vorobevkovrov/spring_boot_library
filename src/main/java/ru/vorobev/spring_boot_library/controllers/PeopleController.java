@@ -1,40 +1,36 @@
 package ru.vorobev.spring_boot_library.controllers;
 
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.vorobev.spring_boot_library.models.Person;
-import ru.vorobev.spring_boot_library.servises.PersonServices;
-import org.slf4j.Logger;
+import ru.vorobev.spring_boot_library.servicesImpl.PersonServicesImpl;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/peoples")
 public class PeopleController {
-    private PersonServices personServices;
-    private final static Logger logger = LoggerFactory.getLogger(Person.class);
+   final private PersonServicesImpl personServices;
 
-    public PeopleController(PersonServices personServices) {
+    public PeopleController(PersonServicesImpl personServices) {
         this.personServices = personServices;
     }
-
+//TODO make getAllPeoples without books
     @GetMapping
     public ResponseEntity<?> getAllPeoples() {
         return ResponseEntity.ok().body(personServices.findAllPeoplesWithBooks());
     }
-
-    //TODO убрать трай и кэтч
-    @PostMapping()
-    public ResponseEntity<?> addPerson(@RequestBody Person person) {
-        logger.info("addPerson " + person);
-        try {
-            personServices.addPerson(person);
-            logger.info("try " + person.getName(), person.getAge(), person.getEmail(), person.getDateOfBirth(), person.getCreatedAt());
-            return new ResponseEntity<>(personServices.addPerson(person), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error person not added");
-        }
+    @GetMapping("/without_books")
+    public ResponseEntity<?> getAllPeoplesWithoutBooks(){
+        return new ResponseEntity<>(personServices.findOnlyPeoples(),HttpStatus.FOUND);
     }
 
+    @PostMapping()
+    public ResponseEntity<?> addPerson(@RequestBody Person person) {
+        log.info("addPerson people controller");
+        personServices.addPerson(person);
+        return new ResponseEntity<>(personServices.addPerson(person), HttpStatus.CREATED);
+    }
 }
+

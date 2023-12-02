@@ -1,9 +1,8 @@
 package ru.vorobev.spring_boot_library.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.stereotype.Repository;
@@ -31,8 +30,8 @@ public  class Person {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "person")
+    @JsonBackReference
     private List<Book> books = new ArrayList<>();
 
     @Column(name = "date_of_birth")
@@ -43,6 +42,14 @@ public  class Person {
     @CreationTimestamp
     private LocalDateTime createdAt;
     public Person() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getAge() {

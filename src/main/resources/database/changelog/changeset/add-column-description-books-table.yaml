@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - preConditions:
+  - changeSet:
+      id: 1
+      author: Maxim
+      changes:
+        - addColumn:
+            tableName: books
+            columns:
+            - column:
+                name: description
+                type: varchar(250)
