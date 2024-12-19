@@ -11,19 +11,21 @@ import ru.vorobev.spring_boot_library.servicesImpl.PersonServicesImpl;
 @RestController
 @RequestMapping("/peoples")
 public class PeopleController {
-   final private PersonServicesImpl personServices;
+    final private PersonServicesImpl personServices;
 
     public PeopleController(PersonServicesImpl personServices) {
         this.personServices = personServices;
     }
-//TODO make getAllPeoples without books
+
+    //TODO make getAllPeoples without books
     @GetMapping
     public ResponseEntity<?> getAllPeoples() {
         return ResponseEntity.ok().body(personServices.findAllPeoplesWithBooks());
     }
+
     @GetMapping("/without_books")
-    public ResponseEntity<?> getAllPeoplesWithoutBooks(){
-        return new ResponseEntity<>(personServices.findOnlyPeoples(),HttpStatus.FOUND);
+    public ResponseEntity<?> getAllPeoplesWithoutBooks() {
+        return new ResponseEntity<>(personServices.findOnlyPeoples(), HttpStatus.FOUND);
     }
 
     @PostMapping()

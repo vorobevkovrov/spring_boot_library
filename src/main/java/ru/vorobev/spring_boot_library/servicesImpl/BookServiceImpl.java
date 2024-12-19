@@ -36,7 +36,8 @@ public class BookServiceImpl implements BookService {
 //    }
 
     public Optional<Book> findById(Integer id) {
-        return Optional.ofNullable(bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Book " + id + " not found ")));
+        return Optional.ofNullable(bookRepository
+                .findById(id).orElseThrow(() -> new NotFoundException("Book " + id + " not found ")));
     }
 
     @Transactional
